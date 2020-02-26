@@ -1,0 +1,5 @@
+[
+  ["u1", { "email": "user1@mail.cc", "roles": [] }],
+  ["u2", { "email": "user2@mail.cc", "roles": [] }],
+  ["u3", { "email": "user3@mail.cc", "roles": [] }]
+]
