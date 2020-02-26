@@ -1,2 +1,1 @@
-# node-app
-Node app stub
+# PoC-app

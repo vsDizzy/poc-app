@@ -11,6 +11,31 @@ beforeEach(() => {
   userApi.users.clear();
 });
 
+function loadUsers(): void {
+  userApi.users = new Map<string, UserSchema>(
+    users as Iterable<[string, UserSchema]>
+  );
+}
+
+describe('get users', () => {
+  it('should get list of users', done => {
+    loadUsers();
+
+    supertest(app)
+      .get('/users')
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        const users = res.body;
+        assert.equal(users.length, 3);
+        done();
+      });
+  });
+});
+
 describe('create user', () => {
   it('should create new user', done => {
     const newUser = {
@@ -33,12 +58,6 @@ describe('create user', () => {
       });
   });
 });
-
-function loadUsers(): void {
-  userApi.users = new Map<string, UserSchema>(
-    users as Iterable<[string, UserSchema]>
-  );
-}
 
 describe('update user', () => {
   it('should update existing user', done => {
