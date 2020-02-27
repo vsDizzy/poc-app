@@ -1,28 +1,23 @@
 import { describe, it, beforeEach } from 'mocha';
-import { app } from '../app';
+import { app } from '../express-app';
 import * as supertest from 'supertest';
 import { Role } from '../schemas/role.schema';
 import userApi from '../db/user.api';
 import * as assert from 'assert';
-import * as users from './users.json';
-import { UserSchema } from '../schemas/user.schema';
+import { getToken } from '../middlewares/jwt.middleware';
+import { loadData } from './sample.test';
 
 beforeEach(() => {
   userApi.users.clear();
 });
 
-function loadUsers(): void {
-  userApi.users = new Map<string, UserSchema>(
-    users as Iterable<[string, UserSchema]>
-  );
-}
-
 describe('get users', () => {
   it('should get list of users', done => {
-    loadUsers();
+    loadData();
 
     supertest(app)
       .get('/users')
+      .set('Authorization', `Bearer ${getToken({ email: 'user1@mail.com' })}`)
       .expect(200)
       .end((err, res) => {
         if (err) {
@@ -45,6 +40,7 @@ describe('create user', () => {
 
     supertest(app)
       .post('/users')
+      .set('Authorization', `Bearer ${getToken({ email: 'user1@mail.com' })}`)
       .send(newUser)
       .expect(200)
       .end((err, res) => {
@@ -61,7 +57,7 @@ describe('create user', () => {
 
 describe('update user', () => {
   it('should update existing user', done => {
-    loadUsers();
+    loadData();
 
     const newUser = {
       email: 'new-user@mail.cc',
@@ -72,7 +68,7 @@ describe('update user', () => {
       .put('/users/u1')
       .send(newUser)
       .expect(200)
-      .end((err) => {
+      .end(err => {
         if (err) {
           return done(err);
         }
@@ -86,12 +82,12 @@ describe('update user', () => {
 
 describe('delete user', () => {
   it('should delete existing user', done => {
-    loadUsers();
+    loadData();
 
     supertest(app)
       .delete('/users/u1')
       .expect(200)
-      .end((err) => {
+      .end(err => {
         if (err) {
           return done(err);
         }
