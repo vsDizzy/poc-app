@@ -2,7 +2,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { app } from '../app';
 import * as supertest from 'supertest';
 import { Role } from '../schemas/role.schema';
-import userApi from '../db/userApi';
+import userApi from '../db/user.api';
 import * as assert from 'assert';
 import * as users from './users.json';
 import { UserSchema } from '../schemas/user.schema';

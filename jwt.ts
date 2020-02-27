@@ -1,10 +1,9 @@
+import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 import { app as config } from './package.json';
-import { Role } from './schemas/role.schema';
-import * as express from 'express';
 
-export function getToken(role: Role): string {
-  return jwt.sign({ role }, config.secret);
+export function getToken(data: object): string {
+  return jwt.sign(data, config.secret);
 }
 
 export function jwtMiddleware(
@@ -21,11 +20,10 @@ export function jwtMiddleware(
         return res.status(401).json({ erorr: err });
       }
 
-      req['role'] = data['role'];
+      req['data'] = data;
       return next();
     });
   }
 
-  req['role'] = Role.regular;
   next();
 }

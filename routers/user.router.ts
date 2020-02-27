@@ -1,25 +1,26 @@
 import * as express from 'express';
-import userApi from './db/userApi';
+import userApi from '../db/user.api';
 
 export const userRouter = express.Router();
 
-userRouter.get('/', (req, res, next) => {
+userRouter.get('/', (_req, res) => {
   const users = userApi.get();
   res.json(users);
 });
 
-userRouter.post('/', (req, res, next) => {
+userRouter.post('/', (req, res) => {
   const id = userApi.create(req.body);
-  res.json(id);
+  res.json({ id });
 });
 
-userRouter.put('/:id', (req, res, next) => {
+userRouter.put('/:id', (req, res) => {
   const { id } = req.params;
   userApi.update(id, req.body);
   res.end();
 });
 
-userRouter.delete('/:id', (req, res, next) => {
-  userApi.delete(req.params.id);
+userRouter.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  userApi.delete(id);
   res.end();
 });
