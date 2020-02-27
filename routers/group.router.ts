@@ -5,8 +5,17 @@ import { collectionRouter } from './collection.router';
 export const groupRouter = express.Router();
 groupRouter.use('/:groupId', collectionRouter);
 
+groupRouter.param('groupId', (req, res, next, id) => {
+  try {
+    req['group'] = groupApi.get(id);
+    next();
+  } catch (e) {
+    res.status(404).json({ error: e.message });
+  }
+});
+
 groupRouter.get('/', (_req, res) => {
-  const groups = groupApi.get();
+  const groups = groupApi.getAll();
   return res.json(groups);
 });
 

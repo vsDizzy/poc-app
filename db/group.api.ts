@@ -5,8 +5,17 @@ import collectionApi from './collection.api';
 export class GroupApi {
   groups = new Map<string, GroupSchema>();
 
-  get(): Entry<GroupSchema>[] {
+  getAll(): Entry<GroupSchema>[] {
     return getEntries(this.groups);
+  }
+
+  get(id: string): GroupSchema {
+    const group = this.groups.get(id);
+    if (!group) {
+      throw new Error(`Group '${id}' is not found.`);
+    }
+
+    return group;
   }
 
   create(name: string): string {

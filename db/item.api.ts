@@ -4,8 +4,8 @@ import { ItemSchema } from '../schemas/item.schema';
 export class ItemApi {
   items = new Map<string, ItemSchema>();
 
-  get(): Entry<ItemSchema>[] {
-    return getEntries(this.items);
+  get(collectionId: string): Entry<ItemSchema>[] {
+    return getEntries(this.items).filter(x => x.parentId == collectionId);
   }
 
   create(name: string, parentId: string): string {

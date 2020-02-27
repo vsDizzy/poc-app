@@ -6,8 +6,8 @@ import groupApi from './group.api';
 export class CollectionApi {
   collections = new Map<string, CollectionSchema>();
 
-  get(): Entry<CollectionSchema>[] {
-    return getEntries(this.collections);
+  get(ids: string[]): Entry<CollectionSchema>[] {
+    return getEntries(this.collections).filter(x => ids.some(id => id == x.id));
   }
 
   create(name: string, groupId: string): string {

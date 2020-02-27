@@ -1,12 +1,26 @@
 import * as express from 'express';
 import collectionApi from '../db/collection.api';
 import { itemRouter } from './item.router';
+import { GroupSchema } from '../schemas/group.schema';
 
 export const collectionRouter = express.Router({ mergeParams: true });
 collectionRouter.use('/:collectionId', itemRouter);
 
-collectionRouter.get('/', (_req, res) => {
-  const collections = collectionApi.get();
+collectionRouter.param('collectionId', (req, res, next, id) => {
+  const { groupId } = req.params;
+  const group: GroupSchema = req['group'];
+  if (!group.collectionIds.some(x => x == id)) {
+    return res.status(404).json({
+      error: `Group '${groupId}' does not contain collection '${id}'.`
+    });
+  }
+
+  next();
+});
+
+collectionRouter.get('/', (req, res) => {
+  const group: GroupSchema = req['group'];
+  const collections = collectionApi.get(group.collectionIds);
   return res.json(collections);
 });
 

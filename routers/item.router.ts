@@ -3,8 +3,9 @@ import itemApi from '../db/item.api';
 
 export const itemRouter = express.Router({ mergeParams: true });
 
-itemRouter.get('/', (_req, res) => {
-  const items = itemApi.get();
+itemRouter.get('/', (req, res) => {
+  const { collectionId } = req.params;
+  const items = itemApi.get(collectionId);
   return res.json(items);
 });
 
