@@ -12,7 +12,7 @@
   "items": [
     ["i1", { "name": "item 1", "parentId": "c1" }],
     ["i2", { "name": "item 2", "parentId": "c1" }],
-    ["i3", { "name": "item 3", "parentId": "c1" }]
+    ["i3", { "name": "item 3", "parentId": "c2" }]
   ],
   "users": [
     [

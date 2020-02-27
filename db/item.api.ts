@@ -39,6 +39,19 @@ export class ItemApi {
       }
     }
   }
+
+  find(id: string, collectionId: string): ItemSchema {
+    const item = this.items.get(id);
+    if (!item) {
+      throw new Error(`Item '${id}' is not found.`);
+    }
+    if (item.parentId != collectionId) {
+      throw new Error(
+        `Collection '${collectionId}' does not contain item '${id}'.`
+      );
+    }
+    return item;
+  }
 }
 
 export default new ItemApi();
