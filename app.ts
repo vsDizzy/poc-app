@@ -1,17 +1,6 @@
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
+import { app } from './express-app';
 import { app as config } from './package.json';
-import { userRouter } from './routers/user.router';
-import { groupRouter } from './routers/group.router';
-import { loadData } from './test/sample';
-
-export const app = express();
-
-app.use(bodyParser.json());
-app.set('json spaces', 2);
-
-app.use('/users', userRouter);
-app.use('/groups', groupRouter);
+import { loadData } from './test/sample.test';
 
 loadData();
 

@@ -2,13 +2,16 @@ import * as express from 'express';
 import collectionApi from '../db/collection.api';
 import { itemRouter } from './item.router';
 import { GroupSchema } from '../schemas/group.schema';
+import { roleMiddleware } from '../middlewares/role.middleware';
+import { Role } from '../schemas/role.schema';
 
 export const collectionRouter = express.Router({ mergeParams: true });
+collectionRouter.use(roleMiddleware(Role.manager));
 collectionRouter.use('/:collectionId', itemRouter);
 
 collectionRouter.param('collectionId', (req, res, next, id) => {
   const { groupId } = req.params;
-  const group: GroupSchema = req['groupid'];
+  const group: GroupSchema = req['group'];
   if (!group.collectionIds.some(x => x == id)) {
     return res.status(404).json({
       error: `Group '${groupId}' does not contain collection '${id}'.`
@@ -19,7 +22,7 @@ collectionRouter.param('collectionId', (req, res, next, id) => {
 });
 
 collectionRouter.get('/', (req, res) => {
-  const group: GroupSchema = req['groupid'];
+  const group: GroupSchema = req['group'];
   const collections = collectionApi.get(group.collectionIds);
   return res.json(collections);
 });

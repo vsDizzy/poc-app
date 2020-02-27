@@ -1,7 +1,10 @@
 import * as express from 'express';
 import itemApi from '../db/item.api';
+import { requireAuth } from '../middlewares/requireAuth.middleware';
 
 export const itemRouter = express.Router({ mergeParams: true });
+
+itemRouter.use(requireAuth);
 
 itemRouter.get('/', (req, res) => {
   const { collectionId } = req.params;
