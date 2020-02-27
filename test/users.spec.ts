@@ -72,7 +72,7 @@ describe('update user', () => {
       .put('/users/u1')
       .send(newUser)
       .expect(200)
-      .end((err, res) => {
+      .end((err) => {
         if (err) {
           return done(err);
         }
@@ -91,7 +91,7 @@ describe('delete user', () => {
     supertest(app)
       .delete('/users/u1')
       .expect(200)
-      .end((err, res) => {
+      .end((err) => {
         if (err) {
           return done(err);
         }

@@ -1,5 +1,6 @@
 import { UserSchema } from '../schemas/user.schema';
 import { newId, getEntries } from './id';
+import { Role } from '../schemas/role.schema';
 
 export class UserApi {
   users = new Map<string, UserSchema>();
@@ -33,6 +34,11 @@ export class UserApi {
 
   findUser(email: string): UserSchema {
     return [...this.users.values()].find(user => user.email == email);
+  }
+
+  getRoleForGroup(user: UserSchema, groupId: string): Role {
+    const rs = user.roles.find(x => x.groupId == groupId);
+    return rs && rs.role;
   }
 }
 

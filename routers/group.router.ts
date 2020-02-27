@@ -3,11 +3,11 @@ import groupApi from '../db/group.api';
 import { collectionRouter } from './collection.router';
 
 export const groupRouter = express.Router();
-groupRouter.use('/:groupId', collectionRouter);
+groupRouter.use('/:groupId', [], collectionRouter);
 
 groupRouter.param('groupId', (req, res, next, id) => {
   try {
-    req['group'] = groupApi.get(id);
+    req['groupId'] = groupApi.get(id);
     next();
   } catch (e) {
     res.status(404).json({ error: e.message });

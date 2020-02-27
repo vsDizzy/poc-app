@@ -8,7 +8,7 @@ collectionRouter.use('/:collectionId', itemRouter);
 
 collectionRouter.param('collectionId', (req, res, next, id) => {
   const { groupId } = req.params;
-  const group: GroupSchema = req['group'];
+  const group: GroupSchema = req['groupid'];
   if (!group.collectionIds.some(x => x == id)) {
     return res.status(404).json({
       error: `Group '${groupId}' does not contain collection '${id}'.`
@@ -19,7 +19,7 @@ collectionRouter.param('collectionId', (req, res, next, id) => {
 });
 
 collectionRouter.get('/', (req, res) => {
-  const group: GroupSchema = req['group'];
+  const group: GroupSchema = req['groupid'];
   const collections = collectionApi.get(group.collectionIds);
   return res.json(collections);
 });

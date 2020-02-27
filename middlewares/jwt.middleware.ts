@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
-import { app as config } from './package.json';
+import { app as config } from '../package.json';
 
 export function getToken(data: object): string {
   return jwt.sign(data, config.secret);
@@ -20,7 +20,7 @@ export function jwtMiddleware(
         return res.status(401).json({ erorr: err });
       }
 
-      req['data'] = data;
+      req['jwt'] = data;
       return next();
     });
   }
