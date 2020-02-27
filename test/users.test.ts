@@ -33,8 +33,10 @@ describe('get users', () => {
 
 describe('create user', () => {
   it('should create new user', done => {
+    loadData();
+
     const newUser = {
-      email: 'new-user@mail.cc',
+      email: 'new-user@mail.com',
       roles: [Role.globalManager]
     };
 
@@ -48,7 +50,7 @@ describe('create user', () => {
           return done(err);
         }
 
-        const id = res.body;
+        const { id } = res.body;
         assert.ok(userApi.users.has(id));
         done();
       });
@@ -60,12 +62,13 @@ describe('update user', () => {
     loadData();
 
     const newUser = {
-      email: 'new-user@mail.cc',
+      email: 'new-user@mail.com',
       roles: [Role.globalManager]
     };
 
     supertest(app)
       .put('/users/u1')
+      .set('Authorization', `Bearer ${getToken({ email: 'user1@mail.com' })}`)
       .send(newUser)
       .expect(200)
       .end(err => {
@@ -86,6 +89,7 @@ describe('delete user', () => {
 
     supertest(app)
       .delete('/users/u1')
+      .set('Authorization', `Bearer ${getToken({ email: 'user1@mail.com' })}`)
       .expect(200)
       .end(err => {
         if (err) {

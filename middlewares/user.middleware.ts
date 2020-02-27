@@ -15,8 +15,8 @@ export const userMiddleware = [
       const user = userApi.findUser(email);
       if (user) {
         req['user'] = user;
+        return next();
       }
-      return next();
     }
 
     res.status(401).json({ error: 'Unauthorized.' });
