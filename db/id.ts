@@ -11,7 +11,7 @@ export function newId(): string {
 }
 
 export function getEntries<T>(map: Map<string, T>): Entry<T>[] {
-  return Array.from(map.entries()).map(([key, value]) => ({
+  return [...map.entries()].map(([key, value]) => ({
     id: key,
     ...value
   }));

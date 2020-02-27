@@ -32,9 +32,9 @@ export class ItemApi {
     this.items.delete(id);
   }
 
-  deleteGroupItems(groupId: string): void {
+  deleteCollectionItems(collectionId: string): void {
     for (const [k, v] of this.items.entries()) {
-      if (v.parentId == groupId) {
+      if (v.parentId == collectionId) {
         this.items.delete(k);
       }
     }

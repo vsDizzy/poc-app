@@ -9,13 +9,15 @@ userRouter.get('/', (_req, res) => {
 });
 
 userRouter.post('/', (req, res) => {
-  const id = userApi.create(req.body);
+  const user = req.body;
+  const id = userApi.create(user);
   res.json({ id });
 });
 
 userRouter.put('/:id', (req, res) => {
   const { id } = req.params;
-  userApi.update(id, req.body);
+  const user = req.body;
+  userApi.update(id, user);
   res.end();
 });
 

@@ -11,8 +11,9 @@ collectionRouter.get('/', (_req, res) => {
 });
 
 collectionRouter.post('/', (req, res) => {
+  const { groupId } = req.params;
   const { name } = req.body;
-  const id = collectionApi.create(name);
+  const id = collectionApi.create(name, groupId);
   return res.json({ id });
 });
 
@@ -24,7 +25,7 @@ collectionRouter.put('/:id', (req, res) => {
 });
 
 collectionRouter.delete('/:id', (req, res) => {
-  const { id } = req.params;
-  collectionApi.delete(id);
+  const { groupId, id } = req.params;
+  collectionApi.delete(id, groupId);
   return res.end();
 });

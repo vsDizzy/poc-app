@@ -1,0 +1,44 @@
+{
+  "groups": [
+    ["g1", { "name": "group 1", "collectionIds": ["c1"] }],
+    ["g2", { "name": "group 2", "collectionIds": [] }],
+    ["g3", { "name": "group 3", "collectionIds": ["c2", "c3"] }]
+  ],
+  "collections": [
+    ["c1", { "name": "collection 1" }],
+    ["c2", { "name": "collection 2" }],
+    ["c3", { "name": "collection 3" }]
+  ],
+  "items": [
+    ["i1", { "name": "item 1", "parentId": "c1" }],
+    ["i2", { "name": "item 2", "parentId": "c1" }],
+    ["i3", { "name": "item 3", "parentId": "c1" }]
+  ],
+  "users": [
+    [
+      "u1",
+      {
+        "email": "user1@mail.com",
+        "roles": [{ "role": "globalManager", "groupId": null }]
+      }
+    ],
+    [
+      "u2",
+      {
+        "email": "user2@mail.com",
+        "roles": [
+          { "role": "manager", "groupId": "g1" },
+          { "role": "regular", "groupId": "g2" },
+          { "role": "regular", "groupId": "g3" }
+        ]
+      }
+    ],
+    [
+      "u3",
+      {
+        "email": "user3@mail.com",
+        "roles": [{ "role": "manager", "groupId": "g3" }]
+      }
+    ]
+  ]
+}

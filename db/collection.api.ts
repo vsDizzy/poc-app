@@ -1,6 +1,7 @@
 import { Entry, getEntries, newId } from './id';
 import { CollectionSchema } from '../schemas/collection.schema';
 import itemApi from './item.api';
+import groupApi from './group.api';
 
 export class CollectionApi {
   collections = new Map<string, CollectionSchema>();
@@ -9,9 +10,11 @@ export class CollectionApi {
     return getEntries(this.collections);
   }
 
-  create(name: string): string {
+  create(name: string, groupId: string): string {
     const id = newId();
     this.collections.set(id, { name });
+
+    groupApi.addCollection(groupId, id);
 
     return id;
   }
@@ -25,12 +28,13 @@ export class CollectionApi {
     Object.assign(collection, { name });
   }
 
-  delete(id: string): void {
+  delete(id: string, groupId: string): void {
     if (!this.collections.has(id)) {
       throw new Error(`Collection '${id}' is not found.`);
     }
 
-    itemApi.deleteGroupItems(id);
+    itemApi.deleteCollectionItems(id);
+    groupApi.removeCollection(groupId, id);
     this.collections.delete(id);
   }
 }

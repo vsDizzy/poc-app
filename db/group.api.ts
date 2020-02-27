@@ -31,8 +31,28 @@ export class GroupApi {
       throw new Error(`Group '${id}' is not found.`);
     }
 
-    group.collectionIds.forEach(id => collectionApi.delete(id));
+    group.collectionIds.forEach(collectionId =>
+      collectionApi.delete(collectionId, id)
+    );
     this.groups.delete(id);
+  }
+
+  addCollection(groupId: string, collectionId: string): void {
+    const group = this.groups.get(groupId);
+    if (!group) {
+      throw new Error(`Group '${groupId}' is not found.`);
+    }
+
+    group.collectionIds.push(collectionId);
+  }
+
+  removeCollection(groupId: string, collectionId: string): void {
+    const group = this.groups.get(groupId);
+    if (!group) {
+      throw new Error(`Group '${groupId}' is not found.`);
+    }
+
+    group.collectionIds = group.collectionIds.filter(id => id != collectionId);
   }
 }
 

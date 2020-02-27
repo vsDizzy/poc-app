@@ -1,11 +1,11 @@
 import { UserSchema } from '../schemas/user.schema';
-import { newId } from './id';
+import { newId, getEntries } from './id';
 
 export class UserApi {
   users = new Map<string, UserSchema>();
 
   get(): UserSchema[] {
-    return Array.from(this.users.values());
+    return getEntries(this.users);
   }
 
   create(user: UserSchema): string {
@@ -29,6 +29,10 @@ export class UserApi {
     }
 
     this.users.delete(id);
+  }
+
+  findUser(email: string): UserSchema {
+    return [...this.users.values()].find(user => user.email == email);
   }
 }
 
