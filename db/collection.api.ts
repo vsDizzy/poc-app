@@ -1,4 +1,4 @@
-import { Entry, getEntries, newId } from './id';
+import { Entry, newId } from './id';
 import { CollectionSchema } from '../schemas/collection.schema';
 import itemApi from './item.api';
 import groupApi from './group.api';
@@ -7,7 +7,9 @@ export class CollectionApi {
   collections = new Map<string, CollectionSchema>();
 
   get(ids: string[]): Entry<CollectionSchema>[] {
-    return getEntries(this.collections).filter(x => ids.some(id => id == x.id));
+    return [...this.collections.entries()]
+      .map(([k, v]) => ({ id: k, ...v }))
+      .filter(x => ids.some(id => id == x.id));
   }
 
   create(name: string, groupId: string): string {

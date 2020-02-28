@@ -1,11 +1,13 @@
-import { Entry, getEntries, newId } from './id';
+import { Entry, newId } from './id';
 import { ItemSchema } from '../schemas/item.schema';
 
 export class ItemApi {
   items = new Map<string, ItemSchema>();
 
   get(collectionId: string): Entry<ItemSchema>[] {
-    return getEntries(this.items).filter(x => x.parentId == collectionId);
+    return [...this.items.entries()]
+      .map(([k, v]) => ({ id: k, ...v }))
+      .filter(v => v.parentId == collectionId);
   }
 
   create(name: string, parentId: string): string {

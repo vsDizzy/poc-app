@@ -9,10 +9,3 @@ interface Id {
 export function newId(): string {
   return nanoid(4);
 }
-
-export function getEntries<T>(map: Map<string, T>): Entry<T>[] {
-  return [...map.entries()].map(([key, value]) => ({
-    id: key,
-    ...value
-  }));
-}

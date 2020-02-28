@@ -1,13 +1,9 @@
 import { UserSchema } from '../schemas/user.schema';
-import { newId, getEntries } from './id';
+import { newId, Entry } from './id';
 import { Role } from '../schemas/role.schema';
 
 export class UserApi {
   users = new Map<string, UserSchema>();
-
-  get(): UserSchema[] {
-    return getEntries(this.users);
-  }
 
   create(user: UserSchema): string {
     const id = newId();
@@ -41,10 +37,10 @@ export class UserApi {
     return rs && rs.role;
   }
 
-  getUsersForGroup(groupId: string): UserSchema[] {
-    return [...this.users.values()].filter(u =>
-      u.roles.some(r => r.groupId == groupId)
-    );
+  getUsersForGroup(groupId: string): Entry<UserSchema>[] {
+    return [...this.users.entries()]
+      .filter(([, v]) => v.roles.some(r => r.groupId == groupId))
+      .map(([k, v]) => ({ id: k, ...v }));
   }
 }
 

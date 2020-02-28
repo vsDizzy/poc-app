@@ -1,12 +1,12 @@
 import { GroupSchema } from '../schemas/group.schema';
-import { Entry, getEntries, newId } from './id';
+import { Entry, newId } from './id';
 import collectionApi from './collection.api';
 
 export class GroupApi {
   groups = new Map<string, GroupSchema>();
 
   getAll(): Entry<GroupSchema>[] {
-    return getEntries(this.groups);
+    return [...this.groups].map(([k, v]) => ({ id: k, ...v }));
   }
 
   get(id: string): GroupSchema {
