@@ -2,17 +2,15 @@ import { Entry, newId } from './id';
 import { ItemSchema } from '../schemas/item.schema';
 
 export class ItemApi {
-  items = new Map<string, ItemSchema>();
+  items = new Map<string, Entry<ItemSchema>>();
 
   get(collectionId: string): Entry<ItemSchema>[] {
-    return [...this.items.entries()]
-      .map(([k, v]) => ({ id: k, ...v }))
-      .filter(v => v.parentId == collectionId);
+    return [...this.items.values()].filter(x => x.parentId == collectionId);
   }
 
   create(name: string, parentId: string): string {
     const id = newId();
-    this.items.set(id, { name, parentId });
+    this.items.set(id, { id, name, parentId });
 
     return id;
   }

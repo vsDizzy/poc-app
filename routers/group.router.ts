@@ -8,7 +8,7 @@ import { userRouter } from './user.router';
 
 export const groupRouter = express.Router();
 groupRouter.use('/:groupId/collections/', collectionRouter);
-groupRouter.use('/:groupId/users/', userRouter);
+groupRouter.use('/:groupId?/users/', userRouter);
 
 groupRouter.param('groupId', (req, res, next, id) => {
   try {

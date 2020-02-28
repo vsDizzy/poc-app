@@ -3,11 +3,11 @@ import { newId, Entry } from './id';
 import { Role } from '../schemas/role.schema';
 
 export class UserApi {
-  users = new Map<string, UserSchema>();
+  users = new Map<string, Entry<UserSchema>>();
 
   create(user: UserSchema): string {
     const id = newId();
-    this.users.set(id, user);
+    this.users.set(id, { id, ...user });
 
     return id;
   }
@@ -17,7 +17,7 @@ export class UserApi {
       throw new Error(`User '${id}' is not found.`);
     }
 
-    this.users.set(id, user);
+    this.users.set(id, { id, ...user });
   }
 
   delete(id: string): void {
@@ -38,9 +38,19 @@ export class UserApi {
   }
 
   getUsersForGroup(groupId: string): Entry<UserSchema>[] {
-    return [...this.users.entries()]
-      .filter(([, v]) => v.roles.some(r => r.groupId == groupId))
-      .map(([k, v]) => ({ id: k, ...v }));
+    return [...this.users.values()].filter(x =>
+      x.roles.some(r => r.groupId == groupId)
+    );
+  }
+
+  addRole(email: string, role: Role, groupId: string): string {
+    const user = this.findUser(email);
+    if (!user) {
+      return this.create({ email, roles: [{ role, groupId }] });
+    }
+
+    user.roles.find(x => x.role == role && x.groupId == groupId);
+    return;
   }
 }
 

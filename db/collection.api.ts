@@ -4,17 +4,17 @@ import itemApi from './item.api';
 import groupApi from './group.api';
 
 export class CollectionApi {
-  collections = new Map<string, CollectionSchema>();
+  collections = new Map<string, Entry<CollectionSchema>>();
 
   get(ids: string[]): Entry<CollectionSchema>[] {
-    return [...this.collections.entries()]
-      .map(([k, v]) => ({ id: k, ...v }))
-      .filter(x => ids.some(id => id == x.id));
+    return [...this.collections.values()].filter(x =>
+      ids.some(id => id == x.id)
+    );
   }
 
   create(name: string, groupId: string): string {
     const id = newId();
-    this.collections.set(id, { name });
+    this.collections.set(id, { id, name });
 
     groupApi.addCollection(groupId, id);
 

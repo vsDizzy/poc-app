@@ -3,10 +3,10 @@ import { Entry, newId } from './id';
 import collectionApi from './collection.api';
 
 export class GroupApi {
-  groups = new Map<string, GroupSchema>();
+  groups = new Map<string, Entry<GroupSchema>>();
 
   getAll(): Entry<GroupSchema>[] {
-    return [...this.groups].map(([k, v]) => ({ id: k, ...v }));
+    return [...this.groups.values()];
   }
 
   get(id: string): GroupSchema {
@@ -20,7 +20,7 @@ export class GroupApi {
 
   create(name: string): string {
     const id = newId();
-    this.groups.set(id, { name, collectionIds: [] });
+    this.groups.set(id, { id, name, collectionIds: [] });
 
     return id;
   }

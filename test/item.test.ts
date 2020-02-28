@@ -112,6 +112,7 @@ describe('Items CRUD', () => {
         }
 
         assert.deepEqual(itemApi.items.get('i1'), {
+          id: 'i1',
           name: 'new item',
           parentId: 'c1'
         });
