@@ -2,16 +2,26 @@
 
 ## users:
 
-/{groupId}/users/{userId?}
+addRole - post /{groupId?}/users
+removeRole - delete /{groupId?}/users
 
 ## groups:
 
-/{groupId?}
+list - get /
+add - post /
+update - put /{groupId}
+delete - delete /{groupId}
 
 ## collections
 
-/{groupId}/collections/{collectionId?}
+list - get /{groupId}/collections/
+add - post /{groupId}/collections/
+update - put /{groupId}/collections/{collectionId}
+delete - delete /{groupId}/collections/{collectionId}
 
 ## items
 
-/{groupId}/collections/{collectionId}/{itemId?}
+list - get /{groupId}/collections/
+add - post /{groupId}/collections/{collectionId}/
+update - put /{groupId}/collections/{collectionId}/{itemId}
+delete - delete /{groupId}/collections/{collectionId}/{itemId}

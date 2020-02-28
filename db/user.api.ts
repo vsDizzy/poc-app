@@ -28,7 +28,7 @@ export class UserApi {
     this.users.delete(id);
   }
 
-  findUser(email: string): UserSchema {
+  findUser(email: string): Entry<UserSchema> {
     return [...this.users.values()].find(user => user.email == email);
   }
 
@@ -49,8 +49,33 @@ export class UserApi {
       return this.create({ email, roles: [{ role, groupId }] });
     }
 
-    user.roles.find(x => x.role == role && x.groupId == groupId);
-    return;
+    const existing = user.roles.some(
+      x => x.role == role && x.groupId == groupId
+    );
+    if (!existing) {
+      user.roles.push({ role, groupId });
+    }
+    return user.id;
+  }
+
+  removeRole(email: string, role: Role, groupId: string): string {
+    const user = this.findUser(email);
+    if (!user) {
+      throw new Error(`Couldn't find user by email: ${email}`);
+    }
+
+    const index = user.roles.findIndex(
+      x => x.role == role && x.groupId == groupId
+    );
+    if (index > 0) {
+      user.roles.splice(index, 1);
+
+      if (!user.roles.length) {
+        this.users.delete(user.id);
+      }
+
+      return user.id;
+    }
   }
 }
 

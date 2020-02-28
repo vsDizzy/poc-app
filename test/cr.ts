@@ -24,6 +24,12 @@ it('cr', done => {
 
       const { id } = res.body;
       assert.ok(userApi.users.has(id));
+      assert.deepEqual(userApi.users.get(id), {
+        id: id,
+        email: 'new-user@mail.com',
+        roles: [{ role: 'globalManager', groupId: null }]
+      });
+
       done();
     });
 });
