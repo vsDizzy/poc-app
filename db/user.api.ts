@@ -40,6 +40,12 @@ export class UserApi {
     const rs = user.roles.find(x => x.groupId == groupId);
     return rs && rs.role;
   }
+
+  getUsersForGroup(groupId: string): UserSchema[] {
+    return [...this.users.values()].filter(u =>
+      u.roles.some(r => r.groupId == groupId)
+    );
+  }
 }
 
 export default new UserApi();

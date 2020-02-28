@@ -4,12 +4,13 @@ import { requireAuth } from '../middlewares/requireAuth.middleware';
 import { roleMiddleware } from '../middlewares/role.middleware';
 import { Role } from '../schemas/role.schema';
 
-export const userRouter = express.Router();
+export const userRouter = express.Router({ mergeParams: true });
 userRouter.use(roleMiddleware(Role.manager));
 
-userRouter.get('/', roleMiddleware(Role.regular), requireAuth, (_req, res) => {
-  const users = userApi.get();
-  res.json(users);
+userRouter.get('/', roleMiddleware(Role.regular), requireAuth, (req, res) => {
+  const { groupId } = req.params;
+  const users = userApi.getUsersForGroup(groupId);
+  res.json({ users });
 });
 
 userRouter.post('/', requireAuth, (req, res) => {

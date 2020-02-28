@@ -9,7 +9,7 @@ describe('Items auth', () => {
   it('should return 401 for anonymous', done => {
     loadData();
     supertest(app)
-      .get('/groups/g1/c1')
+      .get('/g1/collections/c1')
       .expect(401)
       .end(err => {
         done(err);
@@ -19,7 +19,7 @@ describe('Items auth', () => {
   it('should return 200 for globalManager', done => {
     loadData();
     supertest(app)
-      .get('/groups/g1/c1')
+      .get('/g1/collections/c1')
       .set('Authorization', `Bearer ${getToken({ email: 'user1@mail.com' })}`)
       .expect(200)
       .end(err => {
@@ -30,7 +30,7 @@ describe('Items auth', () => {
   it('should return 403 for u3', done => {
     loadData();
     supertest(app)
-      .get('/groups/g1/c1')
+      .get('/g1/collections/c1')
       .set('Authorization', `Bearer ${getToken({ email: 'user3@mail.com' })}`)
       .expect(403)
       .end(err => {
@@ -41,7 +41,7 @@ describe('Items auth', () => {
   it('should return 200 for manager', done => {
     loadData();
     supertest(app)
-      .get('/groups/g1/c1')
+      .get('/g1/collections/c1')
       .set('Authorization', `Bearer ${getToken({ email: 'user2@mail.com' })}`)
       .expect(200)
       .end(err => {
@@ -52,7 +52,7 @@ describe('Items auth', () => {
   it('should return 200 for regular', done => {
     loadData();
     supertest(app)
-      .get('/groups/g3/c2')
+      .get('/g3/collections/c2')
       .set('Authorization', `Bearer ${getToken({ email: 'user2@mail.com' })}`)
       .expect(200)
       .end(err => {
@@ -65,7 +65,7 @@ describe('Items CRUD', () => {
   it('should create new item', done => {
     loadData();
     supertest(app)
-      .post('/groups/g1/c1')
+      .post('/g1/collections/c1')
       .set('Authorization', `Bearer ${getToken({ email: 'user2@mail.com' })}`)
       .send({ name: 'new item' })
       .expect(200)
@@ -83,7 +83,7 @@ describe('Items CRUD', () => {
   it(`shouldn't create new item in wrong group/collection`, done => {
     loadData();
     supertest(app)
-      .post('/groups/g1/c2')
+      .post('/g1/collections/c2')
       .set('Authorization', `Bearer ${getToken({ email: 'user2@mail.com' })}`)
       .send({ name: 'new item' })
       .expect(404)
@@ -102,7 +102,7 @@ describe('Items CRUD', () => {
   it('should update item', done => {
     loadData();
     supertest(app)
-      .put('/groups/g1/c1/i1')
+      .put('/g1/collections/c1/i1')
       .set('Authorization', `Bearer ${getToken({ email: 'user2@mail.com' })}`)
       .send({ name: 'new item' })
       .expect(200)
@@ -122,7 +122,7 @@ describe('Items CRUD', () => {
   it(`shouldn't update wrong item`, done => {
     loadData();
     supertest(app)
-      .put('/groups/g1/c1/i3')
+      .put('/g1/collections/c1/i3')
       .set('Authorization', `Bearer ${getToken({ email: 'user2@mail.com' })}`)
       .send({ name: 'new item' })
       .expect(404)
@@ -134,7 +134,7 @@ describe('Items CRUD', () => {
   it(`shouldn't allow regular user to delete`, done => {
     loadData();
     supertest(app)
-      .delete('/groups/g3/c2/i3')
+      .delete('/g3/collections/c2/i3')
       .set('Authorization', `Bearer ${getToken({ email: 'user2@mail.com' })}`)
       .expect(403)
       .end(err => {

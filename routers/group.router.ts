@@ -4,9 +4,11 @@ import { collectionRouter } from './collection.router';
 import { requireAuth } from '../middlewares/requireAuth.middleware';
 import { roleMiddleware } from '../middlewares/role.middleware';
 import { Role } from '../schemas/role.schema';
+import { userRouter } from './user.router';
 
 export const groupRouter = express.Router();
-groupRouter.use('/:groupId', collectionRouter);
+groupRouter.use('/:groupId/collections/', collectionRouter);
+groupRouter.use('/:groupId/users/', userRouter);
 
 groupRouter.param('groupId', (req, res, next, id) => {
   try {

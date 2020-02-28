@@ -12,11 +12,11 @@ beforeEach(() => {
 });
 
 describe('get users', () => {
-  it('should get list of users', done => {
+  it('should get g3 users', done => {
     loadData();
 
     supertest(app)
-      .get('/users')
+      .get('/g3/users')
       .set('Authorization', `Bearer ${getToken({ email: 'user1@mail.com' })}`)
       .expect(200)
       .end((err, res) => {
@@ -24,8 +24,8 @@ describe('get users', () => {
           return done(err);
         }
 
-        const users = res.body;
-        assert.equal(users.length, 3);
+        const { users } = res.body;
+        assert.equal(users.length, 2);
         done();
       });
   });

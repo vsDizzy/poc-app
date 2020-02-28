@@ -1,6 +1,5 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { userRouter } from './routers/user.router';
 import { groupRouter } from './routers/group.router';
 import { roleMiddleware } from './middlewares/role.middleware';
 import { Role } from './schemas/role.schema';
@@ -14,5 +13,4 @@ app.use(jwtMiddleware, userMiddleware);
 app.use(roleMiddleware(Role.globalManager));
 app.set('json spaces', 2);
 
-app.use('/users', userRouter);
-app.use('/groups', groupRouter);
+app.use('/', groupRouter);

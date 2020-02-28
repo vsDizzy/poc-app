@@ -9,7 +9,7 @@ describe('Collections auth', () => {
   it('should return 401 for anonymous', done => {
     loadData();
     supertest(app)
-      .get('/groups/g1')
+      .get('/g1/collections')
       .expect(401)
       .end(err => {
         done(err);
@@ -19,7 +19,7 @@ describe('Collections auth', () => {
   it('should return 200 for regular', done => {
     loadData();
     supertest(app)
-      .get('/groups/g2')
+      .get('/g2/collections')
       .set('Authorization', `Bearer ${getToken({ email: 'user2@mail.com' })}`)
       .expect(200)
       .end(err => {
@@ -32,7 +32,7 @@ describe('Collections CRUD', () => {
   it('should return 404 for unexisting collectuion', done => {
     loadData();
     supertest(app)
-      .get('/groups/aa')
+      .get('/aa/collections')
       .set('Authorization', `Bearer ${getToken({ email: 'user1@mail.com' })}`)
       .expect(404)
       .end(err => {
@@ -44,7 +44,7 @@ describe('Collections CRUD', () => {
   xit('should delete child items on delete', done => {
     loadData();
     supertest(app)
-      .delete('/groups/g1')
+      .delete('/g1/collections/c1')
       .set('Authorization', `Bearer ${getToken({ email: 'user1@mail.com' })}`)
       .expect(200)
       .end(err => {
